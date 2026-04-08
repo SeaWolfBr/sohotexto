@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: sohotexto
+    runtime: docker
+    plan: starter
+    autoDeploy: true
+    healthCheckPath: /api/health
+    envVars:
+      - key: SOHOTEXTO_HOST
+        value: 0.0.0.0
+      - key: SOHOTEXTO_PORT
+        value: "3217"
+      - key: SOHOTEXTO_SECURE_COOKIE
+        value: "true"
+      - key: SOHOTEXTO_USER
+        sync: false
+      - key: SOHOTEXTO_PASSWORD_HASH
+        sync: false
+      - key: SOHOTEXTO_SESSION_SECRET
+        sync: false

@@ -1,0 +1,13 @@
+<svg width="1280" height="800" viewBox="0 0 1280 800" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1280" height="800" fill="#FFFFFF"/>
+  <rect x="48" y="40" width="1184" height="720" rx="14" stroke="#2F2B28" stroke-width="8"/>
+  <text x="640" y="168" text-anchor="middle" fill="#2F2B28" font-family="Comic Sans MS, Segoe Print, cursive" font-size="62">sohotexto</text>
+  <text x="640" y="214" text-anchor="middle" fill="#5D5752" font-family="Trebuchet MS, sans-serif" font-size="24">transcricao limpa de videos do YouTube, sem timestamps</text>
+  <rect x="314" y="326" width="652" height="84" rx="12" stroke="#2F2B28" stroke-width="8" fill="white"/>
+  <text x="640" y="379" text-anchor="middle" fill="#5D5752" font-family="Trebuchet MS, sans-serif" font-size="26">https://www.youtube.com/watch?v=...</text>
+  <text x="640" y="448" text-anchor="middle" fill="#2F2B28" font-family="Comic Sans MS, Segoe Print, cursive" font-size="30">cole aqui a url</text>
+  <rect x="470" y="510" width="170" height="54" rx="27" fill="#1D1B19"/>
+  <text x="555" y="544" text-anchor="middle" fill="white" font-family="Trebuchet MS, sans-serif" font-size="26" font-weight="700">transcrever</text>
+  <rect x="658" y="510" width="152" height="54" rx="27" stroke="#2F2B28" stroke-width="4" fill="white"/>
+  <text x="734" y="544" text-anchor="middle" fill="#2F2B28" font-family="Trebuchet MS, sans-serif" font-size="24" font-weight="700">limpar</text>
+</svg>

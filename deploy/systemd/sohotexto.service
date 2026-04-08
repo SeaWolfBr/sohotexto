@@ -1,0 +1,17 @@
+[Unit]
+Description=SohoTexto private web app
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/sohotexto
+ExecStart=/usr/bin/npm run start
+Restart=always
+RestartSec=5
+Environment=NODE_ENV=production
+Environment=SOHOTEXTO_HOST=127.0.0.1
+Environment=SOHOTEXTO_PORT=3217
+Environment=SOHOTEXTO_SECURE_COOKIE=true
+
+[Install]
+WantedBy=multi-user.target

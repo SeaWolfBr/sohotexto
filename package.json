@@ -2,10 +2,14 @@
   "name": "sohotexto",
   "version": "0.1.0",
   "private": true,
+  "description": "Private web app for clean YouTube transcript extraction.",
   "scripts": {
     "start": "node server.mjs",
     "dev": "node server.mjs",
     "hash:password": "node -e \"const bcrypt=require('bcryptjs'); console.log(bcrypt.hashSync(process.argv[1], 10))\""
+  },
+  "engines": {
+    "node": ">=20"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",
