@@ -300,7 +300,7 @@ function validateYouTubeUrl(value) {
     throw new Error("Cole uma URL valida do YouTube.");
   }
 
-  extractVideoId(value);
+  const videoId = extractVideoId(value);
   let url;
 
   try {
