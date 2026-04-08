@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>sohotexto</title>
+    <link rel="stylesheet" href="/app.css" />
+  </head>
+  <body>
+    <main class="page">
+      <section class="frame">
+        <div class="frame-head">
+          <span class="micro-pill">private web app</span>
+          <button class="ghost hidden" id="logoutButton" type="button">sair</button>
+        </div>
+
+        <div class="hero">
+          <h1 class="brand">sohotexto</h1>
+          <p class="intro">transcricao limpa de videos do YouTube, sem timestamps</p>
+        </div>
+
+        <section class="input-stage">
+          <form id="transcriptForm">
+            <input
+              autocomplete="off"
+              class="url-input"
+              id="videoUrl"
+              name="videoUrl"
+              placeholder="https://www.youtube.com/watch?v=..."
+              required
+              type="url"
+            />
+
+            <p class="url-caption">cole aqui a url</p>
+
+            <div class="actions hidden" id="primaryActions">
+              <button class="primary" id="submitButton" type="submit">transcrever</button>
+              <button class="ghost" id="clearButton" type="button">limpar</button>
+            </div>
+          </form>
+
+          <p class="status" id="statusMessage">
+            entre com usuario e senha para liberar a ferramenta
+          </p>
+        </section>
+
+        <section class="result hidden" id="resultSection">
+          <div class="result-head">
+            <div>
+              <p class="eyebrow">resultado</p>
+              <h2 class="result-title" id="resultTitle">transcricao pronta</h2>
+            </div>
+            <div class="chips">
+              <span class="chip">texto limpo</span>
+            </div>
+          </div>
+
+          <div class="actions result-actions">
+            <button class="primary" id="copyButton" type="button">copiar texto</button>
+            <button class="ghost" id="downloadTxtButton" type="button">exportar .txt</button>
+          </div>
+
+          <label class="field">
+            <span>transcricao limpa</span>
+            <textarea id="transcriptOutput" readonly></textarea>
+          </label>
+        </section>
+      </section>
+    </main>
+
+    <div class="auth-layer" id="authLayer">
+      <form class="auth-card" id="authForm">
+        <p class="eyebrow">acesso restrito</p>
+        <h2>entrar no sohotexto</h2>
+        <p>
+          esta app foi preparada para rodar de forma privada na web. entre com suas
+          credenciais para liberar a transcricao.
+        </p>
+
+        <label class="field">
+          <span>usuario</span>
+          <input autocomplete="username" id="username" name="username" required type="text" />
+        </label>
+
+        <label class="field">
+          <span>senha</span>
+          <input autocomplete="current-password" id="password" name="password" required type="password" />
+        </label>
+
+        <button class="primary" type="submit">entrar</button>
+        <p class="status auth-status" id="authStatus"></p>
+      </form>
+    </div>
+
+    <script src="/app.js" type="module"></script>
+  </body>
+</html>

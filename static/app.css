@@ -1,0 +1,307 @@
+:root {
+  --paper: #f4f1eb;
+  --ink: #2f2b28;
+  --muted: #5d5752;
+  --line: #2f2b28;
+  --soft: rgba(47, 43, 40, 0.12);
+  --soft-strong: rgba(47, 43, 40, 0.18);
+  --accent: #1d1b19;
+  --good: #2b6b53;
+  --warn: #8f4a33;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  background: #ffffff;
+  color: var(--ink);
+  font-family: "Aptos", "Trebuchet MS", "Gill Sans", sans-serif;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+.page {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+.frame {
+  width: min(1180px, 100%);
+  min-height: min(82vh, 760px);
+  padding: 28px 28px 32px;
+  border: 5px solid var(--line);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.56);
+  box-shadow: 0 22px 46px rgba(35, 29, 24, 0.08);
+}
+
+.frame-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 40px;
+}
+
+.micro-pill,
+.chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 34px;
+  padding: 0 14px;
+  border: 2px solid var(--line);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.micro-pill {
+  color: var(--muted);
+  font-size: 0.82rem;
+  text-transform: lowercase;
+}
+
+.hero {
+  margin-top: 8px;
+  text-align: center;
+}
+
+.brand {
+  margin: 0;
+  font-family: "Segoe Print", "Bradley Hand", cursive;
+  font-size: clamp(2.4rem, 5vw, 3.8rem);
+  line-height: 1;
+}
+
+.intro {
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-size: 0.98rem;
+}
+
+.input-stage {
+  margin-top: 72px;
+  display: grid;
+  justify-items: center;
+}
+
+#transcriptForm {
+  width: min(620px, 100%);
+}
+
+.url-input {
+  width: 100%;
+  height: 72px;
+  padding: 0 22px;
+  border: 5px solid var(--line);
+  border-radius: 12px;
+  background: #fff;
+  font-size: 1rem;
+  text-align: center;
+}
+
+.url-input:focus,
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  outline: none;
+  box-shadow: 0 0 0 5px rgba(47, 43, 40, 0.08);
+}
+
+.url-caption {
+  margin: 10px 0 0;
+  text-align: center;
+  font-family: "Segoe Print", "Bradley Hand", cursive;
+  font-size: 1rem;
+}
+
+.actions,
+.chips,
+.result-head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.actions {
+  justify-content: center;
+}
+
+.actions {
+  margin-top: 20px;
+}
+
+.primary,
+.ghost {
+  min-height: 48px;
+  padding: 0 18px;
+  border-radius: 999px;
+  border: 3px solid var(--line);
+  cursor: pointer;
+  transition: transform 0.16s ease, background 0.16s ease;
+}
+
+.primary {
+  background: var(--accent);
+  color: #fff;
+}
+
+.ghost,
+.ghost-link {
+  background: rgba(255, 255, 255, 0.8);
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.primary:hover,
+.ghost:hover,
+.ghost-link:hover {
+  transform: translateY(-1px);
+}
+
+.status {
+  min-height: 24px;
+  margin: 18px 0 0;
+  text-align: center;
+  color: var(--muted);
+}
+
+.result {
+  margin-top: 48px;
+  padding-top: 26px;
+  border-top: 3px dashed var(--soft-strong);
+}
+
+.result-head {
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  color: var(--muted);
+  font-size: 0.8rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.result-title {
+  margin: 0;
+  font-family: "Segoe Print", "Bradley Hand", cursive;
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+  line-height: 1.1;
+}
+
+.result-actions {
+  margin-top: 18px;
+  justify-content: center;
+}
+
+.field {
+  display: grid;
+  gap: 10px;
+  margin-top: 22px;
+}
+
+.field span {
+  color: var(--muted);
+  text-transform: lowercase;
+}
+
+.field input,
+.field textarea {
+  width: 100%;
+  border: 3px solid var(--line);
+  border-radius: 12px;
+  background: #fff;
+}
+
+.field input {
+  height: 48px;
+  padding: 0 14px;
+}
+
+.field textarea {
+  min-height: 280px;
+  padding: 16px;
+  resize: vertical;
+  line-height: 1.7;
+}
+
+.auth-layer {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(244, 241, 235, 0.88);
+  backdrop-filter: blur(3px);
+}
+
+.auth-card {
+  width: min(420px, 100%);
+  padding: 28px;
+  border: 4px solid var(--line);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 18px 34px rgba(35, 29, 24, 0.09);
+}
+
+.auth-card h2 {
+  margin: 0 0 10px;
+  font-family: "Segoe Print", "Bradley Hand", cursive;
+  font-size: 2rem;
+  line-height: 1.1;
+}
+
+.auth-card p {
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.auth-status {
+  text-align: left;
+}
+
+.hidden {
+  display: none !important;
+}
+
+@media (max-width: 720px) {
+  .frame {
+    min-height: auto;
+    padding: 18px 18px 24px;
+    border-width: 4px;
+  }
+
+  .input-stage {
+    margin-top: 48px;
+  }
+
+  .url-input {
+    height: 64px;
+    border-width: 4px;
+  }
+
+  .result-head {
+    flex-direction: column;
+  }
+
+  .result-actions {
+    justify-content: center;
+  }
+}
