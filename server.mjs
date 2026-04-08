@@ -13,7 +13,7 @@ const __dirname = path.dirname(__filename);
 const staticDir = path.join(__dirname, "static");
 
 const host = process.env.SOHOTEXTO_HOST?.trim() || "127.0.0.1";
-const port = Number(process.env.SOHOTEXTO_PORT || 3217);
+const port = Number(process.env.PORT || process.env.SOHOTEXTO_PORT || 3217);
 const authUser = process.env.SOHOTEXTO_USER?.trim() || "admin";
 const passwordHash =
   process.env.SOHOTEXTO_PASSWORD_HASH?.trim() ||
