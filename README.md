@@ -1,4 +1,4 @@
-# SohoTexto
+# Justext
 
 Aplicacao web privada para extrair transcricoes limpas de videos do YouTube, sem timestamps, com autenticacao simples e interface minimalista.
 

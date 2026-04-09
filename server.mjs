@@ -313,7 +313,7 @@ function validateYouTubeUrl(value) {
   const allowedHosts = new Set(["youtube.com", "m.youtube.com", "youtu.be"]);
 
   if (!allowedHosts.has(hostname)) {
-    throw new Error("Por enquanto, o SohoTexto aceita apenas URLs do YouTube.");
+    throw new Error("Por enquanto, o Justext aceita apenas URLs do YouTube.");
   }
 
   return { normalizedUrl: url.toString(), videoId };
@@ -468,7 +468,7 @@ const server = http.createServer(async (request, response) => {
 });
 
 server.listen(port, host, () => {
-  console.log(`SohoTexto pronto em http://${host}:${port}`);
+  console.log(`Justext pronto em http://${host}:${port}`);
 });
 
 
