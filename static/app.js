@@ -106,7 +106,7 @@ async function refreshSession() {
     setStatus(
       data.authenticated
         ? "cole a URL e clique em transcrever"
-        : "entre com usuário e senha para liberar a ferramenta",
+        : "entre com suas credenciais para começar",
     );
   } catch {
     setAuthenticated(false);
@@ -132,7 +132,7 @@ elements.authForm.addEventListener("submit", async (event) => {
     elements.password.value = "";
     setAuthStatus("");
     setAuthenticated(true);
-    setStatus("acesso liberado. cole a URL e clique em transcrever", "good");
+    setStatus("pronto. cole a URL e clique em transcrever", "good");
   } catch (error) {
     setAuthStatus(
       error instanceof Error ? error.message : "não foi possível validar o login",
