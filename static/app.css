@@ -195,11 +195,6 @@ a {
   box-shadow: none;
 }
 
-.topbar-ghost {
-  min-height: 38px;
-  padding: 0 var(--space-md);
-  font-size: 0.88rem;
-}
 
 /* ─── HERO ───────────────────────────────────────────── */
 
@@ -356,28 +351,6 @@ a {
   gap: var(--space-sm);
 }
 
-.field span {
-  margin: 0;
-  color: var(--muted);
-  font-size: 0.875rem;
-}
-
-.field input {
-  width: 100%;
-  min-height: 52px;
-  padding: 0 var(--space-md);
-  border-radius: 12px;
-  border: 1px solid var(--line-strong);
-  background: var(--page);
-  color: var(--ink);
-}
-
-.field input:focus {
-  outline: none;
-  border-color: rgba(64, 110, 255, 0.35);
-  box-shadow: 0 0 0 4px rgba(73, 112, 255, 0.08);
-}
-
 .field textarea {
   width: 100%;
   min-height: 380px;
@@ -395,57 +368,6 @@ a {
   outline: none;
   border-color: rgba(64, 110, 255, 0.28);
   box-shadow: 0 0 0 4px rgba(73, 112, 255, 0.07);
-}
-
-/* ─── AUTH LAYER ─────────────────────────────────────── */
-
-.auth-layer {
-  position: fixed;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  padding: var(--space-lg);
-  background: rgba(255, 255, 255, 0.82);
-  backdrop-filter: blur(18px);
-}
-
-.auth-card {
-  width: min(440px, 100%);
-  padding: var(--space-xl);
-  border: 1px solid var(--line-strong);
-  border-radius: 24px;
-  background: linear-gradient(180deg, #ffffff 0%, #f7f8fc 100%);
-  box-shadow: 0 32px 80px rgba(15, 23, 40, 0.1);
-}
-
-.auth-card > * + * {
-  margin-top: var(--space-md);
-}
-
-.auth-card h2 {
-  margin: var(--space-xs) 0 0;
-  font-size: 1.6rem;
-  font-weight: 500;
-  letter-spacing: -0.02em;
-  line-height: 1.15;
-}
-
-.auth-card p {
-  margin: 0;
-  color: var(--muted);
-  font-size: 0.95rem;
-  line-height: 1.65;
-}
-
-.auth-submit {
-  width: 100%;
-  margin-top: var(--space-lg) !important;
-}
-
-.auth-status {
-  font-size: 0.875rem;
-  min-height: 20px;
-  margin-top: var(--space-sm) !important;
 }
 
 /* ─── UTILITY ────────────────────────────────────────── */

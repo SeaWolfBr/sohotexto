@@ -25,10 +25,6 @@
               <p class="brand-subtitle">youtube transcript</p>
             </div>
           </div>
-
-          <div class="topbar-actions">
-            <button class="ghost topbar-ghost hidden" id="logoutButton" type="button">sair</button>
-          </div>
         </header>
 
         <section class="hero">
@@ -51,17 +47,17 @@
               type="url"
             />
             <div class="hero-actions">
-              <button class="primary hidden" id="submitButton" type="submit">
+              <button class="primary" id="submitButton" type="submit">
                 transcrever
               </button>
-              <button class="ghost hidden" id="clearButton" type="button">
+              <button class="ghost" id="clearButton" type="button">
                 limpar
               </button>
             </div>
           </form>
 
           <p class="status" id="statusMessage">
-            entre com usuário e senha para liberar a ferramenta
+            cole a URL e clique em transcrever
           </p>
         </section>
 
@@ -85,44 +81,6 @@
         </section>
       </section>
     </main>
-
-    <div class="auth-layer" id="authLayer">
-      <form class="auth-card" id="authForm">
-        <div>
-          <p class="eyebrow">login</p>
-          <h2>entrar no justext</h2>
-        </div>
-
-        <p>
-          Entre com suas credenciais para acessar o justext.
-        </p>
-
-        <label class="field">
-          <span>usuário</span>
-          <input
-            autocomplete="username"
-            id="username"
-            name="username"
-            required
-            type="text"
-          />
-        </label>
-
-        <label class="field">
-          <span>senha</span>
-          <input
-            autocomplete="current-password"
-            id="password"
-            name="password"
-            required
-            type="password"
-          />
-        </label>
-
-        <button class="primary auth-submit" type="submit">entrar</button>
-        <p class="status auth-status" id="authStatus"></p>
-      </form>
-    </div>
 
     <footer class="site-footer">
       built by <a href="https://github.com/SeaWolfBr" target="_blank" rel="noopener">SeaWolfBr</a>
