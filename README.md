@@ -58,7 +58,6 @@ Use isso apenas para desenvolvimento local. Em producao, troque tudo por variave
 - `SOHOTEXTO_PASSWORD_HASH`
 - `SOHOTEXTO_SESSION_SECRET`
 - `SOHOTEXTO_SECURE_COOKIE`
-- `YOUTUBE_INNERTUBE_ANDROID_KEY` (opcional, habilita um fallback adicional de transcricao)
 
 Exemplo em `.env.example`.
 
