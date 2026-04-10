@@ -56,9 +56,9 @@ a {
 }
 
 .topbar {
-  display: flex;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
   align-items: center;
-  justify-content: space-between;
   gap: 24px;
   padding: 2px 8px 0;
 }
@@ -131,7 +131,6 @@ a {
 }
 
 .nav-links {
-  flex: 1;
   justify-content: center;
   flex-wrap: wrap;
 }
@@ -142,6 +141,17 @@ a {
   font-weight: 600;
   letter-spacing: -0.02em;
   border-radius: 999px;
+  white-space: nowrap;
+}
+
+.topbar-actions {
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+.topbar-actions .ghost,
+.topbar-actions .micro-pill {
+  white-space: nowrap;
 }
 
 .micro-pill,
@@ -434,7 +444,7 @@ a {
   display: none !important;
 }
 
-@media (max-width: 980px) {
+@media (max-width: 760px) {
   .topbar,
   .workspace {
     padding-left: 8px;
@@ -442,8 +452,8 @@ a {
   }
 
   .topbar {
-    flex-direction: column;
-    align-items: stretch;
+    grid-template-columns: 1fr;
+    justify-items: stretch;
   }
 
   .nav-links {
