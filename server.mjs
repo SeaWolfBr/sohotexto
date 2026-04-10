@@ -18,13 +18,18 @@ const authUser = process.env.SOHOTEXTO_USER?.trim() || "admin";
 const passwordHash =
   process.env.SOHOTEXTO_PASSWORD_HASH?.trim() ||
   "$2b$10$cmw8WEY8kTXoro9Vs5k78utlT5HMx36KtHXzn0YVbAaLaFIP5IQfS";
-const sessionSecret =
-  process.env.SOHOTEXTO_SESSION_SECRET?.trim() ||
-  "sohotexto-local-session-secret-change-me";
 const secureCookie =
   (process.env.SOHOTEXTO_SECURE_COOKIE?.trim() || "false").toLowerCase() === "true";
 const sessionCookieName = "sohotexto_session";
 const sessionTtlMs = 1000 * 60 * 60 * 12;
+const MAX_BODY_BYTES = 64 * 1024;
+
+class AppError extends Error {
+  constructor(message, statusCode = 500) {
+    super(message);
+    this.statusCode = statusCode;
+  }
+}
 
 const loginLimiter = createRateLimiter({
   windowMs: 1000 * 60 * 10,
@@ -165,16 +170,34 @@ function clearSessionCookie() {
 function readRequestBody(request) {
   return new Promise((resolve, reject) => {
     const chunks = [];
+    let totalSize = 0;
+    let done = false;
 
     request.on("data", (chunk) => {
+      if (done) return;
+      totalSize += chunk.length;
+
+      if (totalSize > MAX_BODY_BYTES) {
+        done = true;
+        request.destroy();
+        reject(new AppError("Payload excede o limite permitido.", 413));
+        return;
+      }
+
       chunks.push(chunk);
     });
 
     request.on("end", () => {
+      if (done) return;
+      done = true;
       resolve(Buffer.concat(chunks).toString("utf8"));
     });
 
-    request.on("error", reject);
+    request.on("error", (err) => {
+      if (done) return;
+      done = true;
+      reject(err);
+    });
   });
 }
 
@@ -188,7 +211,7 @@ async function readJsonBody(request) {
   try {
     return JSON.parse(rawBody);
   } catch {
-    throw new Error("O corpo da requisicao nao veio em JSON valido.");
+    throw new AppError("O corpo da requisicao nao veio em JSON valido.", 400);
   }
 }
 
@@ -208,7 +231,7 @@ async function serveStaticFile(response, filePath) {
 
   response.writeHead(200, {
     "Content-Type": contentType,
-    "Cache-Control": extension === ".html" ? "no-store" : "public, max-age=300",
+    "Cache-Control": "no-store",
   });
   response.end(content);
 }
@@ -297,23 +320,28 @@ function handleLogout(request, response) {
 
 function validateYouTubeUrl(value) {
   if (!value || value.length > 500) {
-    throw new Error("Cole uma URL valida do YouTube.");
+    throw new AppError("Cole uma URL valida do YouTube.", 400);
   }
 
-  const videoId = extractVideoId(value);
-  let url;
+  let videoId;
+  try {
+    videoId = extractVideoId(value);
+  } catch {
+    throw new AppError("Cole uma URL valida do YouTube.", 400);
+  }
 
+  let url;
   try {
     url = new URL(value);
   } catch {
-    throw new Error("Cole uma URL valida do YouTube.");
+    throw new AppError("Cole uma URL valida do YouTube.", 400);
   }
 
   const hostname = url.hostname.replace(/^www\./, "").toLowerCase();
   const allowedHosts = new Set(["youtube.com", "m.youtube.com", "youtu.be"]);
 
   if (!allowedHosts.has(hostname)) {
-    throw new Error("Por enquanto, o Justext aceita apenas URLs do YouTube.");
+    throw new AppError("Por enquanto, o Justext aceita apenas URLs do YouTube.", 400);
   }
 
   return { normalizedUrl: url.toString(), videoId };
@@ -339,8 +367,8 @@ async function handleTranscribe(request, response) {
     const body = await readJsonBody(request);
     const url = body?.url?.toString().trim();
 
-    const { normalizedUrl } = validateYouTubeUrl(url);
-    const transcript = await fetchYouTubeTranscript(normalizedUrl);
+    const { normalizedUrl, videoId } = validateYouTubeUrl(url);
+    const transcript = await fetchYouTubeTranscript(videoId);
     const payload = {
       ...transcript,
       sourceUrl: normalizedUrl,
@@ -355,19 +383,13 @@ async function handleTranscribe(request, response) {
       },
     });
   } catch (error) {
+    const statusCode = error instanceof AppError ? error.statusCode : 500;
     const message =
-      error instanceof Error
+      statusCode < 500 && error instanceof Error
         ? error.message
         : "Nao foi possivel obter a transcricao.";
-    const statusCode =
-      message.includes("URL valida") || message.includes("aceita apenas URLs do YouTube")
-        ? 400
-        : 500;
 
-    writeJson(response, statusCode, {
-      ok: false,
-      message,
-    });
+    writeJson(response, statusCode, { ok: false, message });
   }
 }
 
@@ -448,7 +470,12 @@ const server = http.createServer(async (request, response) => {
 
     await serveStaticFile(response, requestedPath);
   } catch (error) {
-    const statusCode = error?.code === "ENOENT" ? 404 : 500;
+    const statusCode =
+      error?.code === "ENOENT"
+        ? 404
+        : error instanceof AppError
+          ? error.statusCode
+          : 500;
 
     if (!response.headersSent) {
       writeJson(response, statusCode, {
@@ -456,7 +483,7 @@ const server = http.createServer(async (request, response) => {
         message:
           statusCode === 404
             ? "Recurso nao encontrado."
-            : error instanceof Error
+            : statusCode < 500
               ? error.message
               : "Falha interna no servidor.",
       });
@@ -470,5 +497,3 @@ const server = http.createServer(async (request, response) => {
 server.listen(port, host, () => {
   console.log(`Justext pronto em http://${host}:${port}`);
 });
-
-

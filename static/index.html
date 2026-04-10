@@ -26,115 +26,101 @@
             </div>
           </div>
 
-          <nav class="nav-links" aria-label="navegacao">
-            <a href="#overview">Overview</a>
-            <a href="#workflow">How it works</a>
-            <a href="#hands-on">Hands-on</a>
-          </nav>
-
           <div class="topbar-actions">
-            <span class="micro-pill">YouTube only</span>
-            <a class="ghost hidden" href="#workflow" id="openWorkspaceLink">abrir workspace</a>
-            <button class="ghost hidden" id="logoutButton" type="button">sair</button>
+            <button class="ghost topbar-ghost hidden" id="logoutButton" type="button">sair</button>
           </div>
         </header>
 
-        <section class="hero" id="overview">
-          <p class="hero-kicker">transcricao limpa</p>
+        <section class="hero">
           <h1 class="hero-title">
-            Extraia e organize transcricoes de videos do YouTube sem timestamps
+            Extraia transcrições limpas de vídeos do YouTube
           </h1>
           <p class="hero-copy">
-            Uma interface privada para transformar legendas disponiveis em texto pronto para leitura, estudo e reaproveitamento.
+            Interface privada para transformar legendas disponíveis em texto
+            pronto para leitura, estudo e reaproveitamento.
           </p>
 
-          <div class="hero-actions hidden" id="primaryActions">
-            <button class="primary hero-primary" id="submitButton" form="transcriptForm" type="submit">
-              transcrever
-            </button>
-            <button class="ghost hero-secondary" id="clearButton" type="button">limpar</button>
-          </div>
+          <form class="hero-form" id="transcriptForm">
+            <input
+              autocomplete="off"
+              class="url-input"
+              id="videoUrl"
+              name="videoUrl"
+              placeholder="https://www.youtube.com/watch?v=..."
+              required
+              type="url"
+            />
+            <div class="hero-actions">
+              <button class="primary hidden" id="submitButton" type="submit">
+                transcrever
+              </button>
+              <button class="ghost hidden" id="clearButton" type="button">
+                limpar
+              </button>
+            </div>
+          </form>
+
+          <p class="status" id="statusMessage">
+            entre com usuário e senha para liberar a ferramenta
+          </p>
         </section>
 
-        <section class="workspace" id="workflow">
-          <div class="panel panel-input">
-            <p class="eyebrow">Input</p>
-            <h2>Envie o link do video</h2>
-            <p class="panel-copy">
-              O justext encontra a legenda disponivel, remove as marcas de tempo e devolve o conteudo em texto corrido.
-            </p>
-
-            <form id="transcriptForm">
-              <label class="input-wrap" for="videoUrl">
-                <span class="input-label">URL do YouTube</span>
-                <input
-                  autocomplete="off"
-                  class="url-input"
-                  id="videoUrl"
-                  name="videoUrl"
-                  placeholder="https://www.youtube.com/watch?v=..."
-                  required
-                  type="url"
-                />
-              </label>
-            </form>
-
-            <p class="status" id="statusMessage">
-              entre com usuario e senha para liberar a ferramenta
-            </p>
-          </div>
-
-          <section class="panel result hidden" id="resultSection">
-            <div class="result-head">
-              <div>
-                <p class="eyebrow">Output</p>
-                <h2 class="result-title" id="resultTitle">transcricao pronta</h2>
-              </div>
-              <div class="chips">
-                <span class="chip">texto limpo</span>
-              </div>
+        <section class="result hidden" id="resultSection">
+          <div class="result-head">
+            <div class="result-title-wrap">
+              <p class="eyebrow">Output</p>
+              <h2 class="result-title" id="resultTitle">transcrição pronta</h2>
             </div>
-
-            <div class="actions result-actions">
+            <div class="result-actions">
               <button class="primary" id="copyButton" type="button">copiar texto</button>
               <button class="ghost" id="downloadTxtButton" type="button">exportar .txt</button>
             </div>
+          </div>
 
-            <label class="field">
-              <span>transcricao limpa</span>
-              <textarea id="transcriptOutput" readonly></textarea>
-            </label>
-          </section>
-        </section>
+          <div class="context-preview" id="contextPreview"></div>
 
-        <section class="tab-rail" id="hands-on" aria-label="atalhos">
-          <a class="tab-pill" href="#overview">Overview</a>
-          <a class="tab-pill" href="#workflow">How it works</a>
-          <a class="tab-pill" href="#hands-on">Hands-on</a>
+          <div class="field">
+            <textarea id="transcriptOutput" readonly></textarea>
+          </div>
         </section>
       </section>
     </main>
 
     <div class="auth-layer" id="authLayer">
       <form class="auth-card" id="authForm">
-        <p class="eyebrow">acesso restrito</p>
-        <h2>entrar no justext</h2>
+        <div>
+          <p class="eyebrow">acesso restrito</p>
+          <h2>entrar no justext</h2>
+        </div>
+
         <p>
-          esta app foi preparada para rodar de forma privada na web. entre com suas
-          credenciais para liberar a transcricao.
+          Esta app foi preparada para rodar de forma privada na web. Entre com
+          suas credenciais para liberar a transcrição.
         </p>
 
         <label class="field">
-          <span>usuario</span>
-          <input autocomplete="username" id="username" name="username" required type="text" />
+          <span>usuário</span>
+          <input
+            autocomplete="username"
+            id="username"
+            name="username"
+            required
+            type="text"
+          />
         </label>
 
         <label class="field">
           <span>senha</span>
-          <input autocomplete="current-password" id="password" name="password" required type="password" />
+          <input
+            autocomplete="current-password"
+            id="password"
+            name="password"
+            required
+            type="password"
+          />
         </label>
 
-        <button class="primary" type="submit">entrar</button>
+        <button class="primary auth-submit" type="submit">entrar</button>
         <p class="status auth-status" id="authStatus"></p>
       </form>
     </div>
