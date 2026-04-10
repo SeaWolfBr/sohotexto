@@ -29,7 +29,7 @@ body {
   margin: 0;
   background: var(--page);
   color: var(--ink);
-  font-family: "Aptos", "Segoe UI", sans-serif;
+  font-family: "Manrope", "Segoe UI", sans-serif;
 }
 
 button,
@@ -121,7 +121,7 @@ a {
 .brand-name {
   font-size: 1.15rem;
   font-weight: 600;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.02em;
 }
 
 .brand-subtitle {
@@ -139,7 +139,7 @@ a {
   padding: 10px 14px;
   font-size: 1rem;
   font-weight: 600;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
   border-radius: 999px;
   white-space: nowrap;
 }
@@ -203,8 +203,8 @@ a {
   width: min(860px, 100%);
   margin: 0;
   font-size: clamp(3.1rem, 6vw, 5.2rem);
-  line-height: 0.92;
-  letter-spacing: -0.075em;
+  line-height: 0.96;
+  letter-spacing: -0.045em;
   font-weight: 500;
 }
 
@@ -287,8 +287,8 @@ a {
 .auth-card h2 {
   margin: 0;
   font-size: clamp(1.45rem, 2.3vw, 2.1rem);
-  line-height: 1.02;
-  letter-spacing: -0.05em;
+  line-height: 1.06;
+  letter-spacing: -0.03em;
   font-weight: 500;
 }
 
