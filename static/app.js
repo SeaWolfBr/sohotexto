@@ -16,6 +16,7 @@ const elements = {
   submitButton: document.querySelector("#submitButton"),
   clearButton: document.querySelector("#clearButton"),
   logoutButton: document.querySelector("#logoutButton"),
+  openWorkspaceLink: document.querySelector("#openWorkspaceLink"),
   resultSection: document.querySelector("#resultSection"),
   resultTitle: document.querySelector("#resultTitle"),
   transcriptOutput: document.querySelector("#transcriptOutput"),
@@ -50,6 +51,7 @@ function setAuthenticated(value) {
   elements.authLayer.classList.toggle("hidden", value);
   elements.primaryActions.classList.toggle("hidden", !value);
   elements.logoutButton.classList.toggle("hidden", !value);
+  elements.openWorkspaceLink.classList.toggle("hidden", !value);
 
   if (!value) {
     elements.resultSection.classList.add("hidden");

@@ -8,62 +8,103 @@
   </head>
   <body>
     <main class="page">
-      <section class="frame">
-        <div class="frame-head">
-          <span class="micro-pill">private web app</span>
-          <button class="ghost hidden" id="logoutButton" type="button">sair</button>
-        </div>
-
-        <div class="hero">
-          <h1 class="brand">justext</h1>
-          <p class="intro">transcricao limpa de videos do YouTube, sem timestamps</p>
-        </div>
-
-        <section class="input-stage">
-          <form id="transcriptForm">
-            <input
-              autocomplete="off"
-              class="url-input"
-              id="videoUrl"
-              name="videoUrl"
-              placeholder="https://www.youtube.com/watch?v=..."
-              required
-              type="url"
-            />
-
-            <p class="url-caption">cole aqui a url</p>
-
-            <div class="actions hidden" id="primaryActions">
-              <button class="primary" id="submitButton" type="submit">transcrever</button>
-              <button class="ghost" id="clearButton" type="button">limpar</button>
+      <section class="shell">
+        <header class="topbar">
+          <div class="brand-lockup">
+            <div class="brand-mark" aria-hidden="true">
+              <span></span>
             </div>
-          </form>
+            <div>
+              <p class="brand-name">justext</p>
+              <p class="brand-subtitle">private transcript tool</p>
+            </div>
+          </div>
 
-          <p class="status" id="statusMessage">
-            entre com usuario e senha para liberar a ferramenta
+          <nav class="nav-links" aria-label="navegacao">
+            <a href="#overview">Overview</a>
+            <a href="#workflow">How it works</a>
+            <a href="#hands-on">Hands-on</a>
+          </nav>
+
+          <div class="topbar-actions">
+            <span class="micro-pill">YouTube only</span>
+            <a class="ghost hidden" href="#workflow" id="openWorkspaceLink">abrir workspace</a>
+            <button class="ghost hidden" id="logoutButton" type="button">sair</button>
+          </div>
+        </header>
+
+        <section class="hero" id="overview">
+          <p class="hero-kicker">transcricao limpa</p>
+          <h1 class="hero-title">
+            Extraia e organize transcricoes de videos do YouTube sem timestamps
+          </h1>
+          <p class="hero-copy">
+            Uma interface privada para transformar legendas disponiveis em texto pronto para leitura, estudo e reaproveitamento.
           </p>
+
+          <div class="hero-actions hidden" id="primaryActions">
+            <button class="primary hero-primary" id="submitButton" form="transcriptForm" type="submit">
+              transcrever
+            </button>
+            <button class="ghost hero-secondary" id="clearButton" type="button">limpar</button>
+          </div>
         </section>
 
-        <section class="result hidden" id="resultSection">
-          <div class="result-head">
-            <div>
-              <p class="eyebrow">resultado</p>
-              <h2 class="result-title" id="resultTitle">transcricao pronta</h2>
-            </div>
-            <div class="chips">
-              <span class="chip">texto limpo</span>
-            </div>
+        <section class="workspace" id="workflow">
+          <div class="panel panel-input">
+            <p class="eyebrow">Input</p>
+            <h2>Envie o link do video</h2>
+            <p class="panel-copy">
+              O justext encontra a legenda disponivel, remove as marcas de tempo e devolve o conteudo em texto corrido.
+            </p>
+
+            <form id="transcriptForm">
+              <label class="input-wrap" for="videoUrl">
+                <span class="input-label">URL do YouTube</span>
+                <input
+                  autocomplete="off"
+                  class="url-input"
+                  id="videoUrl"
+                  name="videoUrl"
+                  placeholder="https://www.youtube.com/watch?v=..."
+                  required
+                  type="url"
+                />
+              </label>
+            </form>
+
+            <p class="status" id="statusMessage">
+              entre com usuario e senha para liberar a ferramenta
+            </p>
           </div>
 
-          <div class="actions result-actions">
-            <button class="primary" id="copyButton" type="button">copiar texto</button>
-            <button class="ghost" id="downloadTxtButton" type="button">exportar .txt</button>
-          </div>
+          <section class="panel result hidden" id="resultSection">
+            <div class="result-head">
+              <div>
+                <p class="eyebrow">Output</p>
+                <h2 class="result-title" id="resultTitle">transcricao pronta</h2>
+              </div>
+              <div class="chips">
+                <span class="chip">texto limpo</span>
+              </div>
+            </div>
 
-          <label class="field">
-            <span>transcricao limpa</span>
-            <textarea id="transcriptOutput" readonly></textarea>
-          </label>
+            <div class="actions result-actions">
+              <button class="primary" id="copyButton" type="button">copiar texto</button>
+              <button class="ghost" id="downloadTxtButton" type="button">exportar .txt</button>
+            </div>
+
+            <label class="field">
+              <span>transcricao limpa</span>
+              <textarea id="transcriptOutput" readonly></textarea>
+            </label>
+          </section>
+        </section>
+
+        <section class="tab-rail" id="hands-on" aria-label="atalhos">
+          <a class="tab-pill" href="#overview">Overview</a>
+          <a class="tab-pill" href="#workflow">How it works</a>
+          <a class="tab-pill" href="#hands-on">Hands-on</a>
         </section>
       </section>
     </main>
