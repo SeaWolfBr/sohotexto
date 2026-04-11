@@ -138,12 +138,6 @@ a {
   font-size: 0.78rem;
 }
 
-.topbar-actions {
-  display: flex;
-  align-items: center;
-  gap: var(--space-md);
-}
-
 /* ─── BUTTONS ────────────────────────────────────────── */
 
 .primary,
@@ -194,7 +188,6 @@ a {
   transform: none;
   box-shadow: none;
 }
-
 
 /* ─── HERO ───────────────────────────────────────────── */
 
@@ -325,8 +318,8 @@ a {
 .result-actions {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: var(--space-sm);
-  flex-shrink: 0;
 }
 
 /* ─── CONTEXT PREVIEW ────────────────────────────────── */
@@ -342,6 +335,221 @@ a {
 
 .context-preview:empty {
   display: none;
+}
+
+/* ─── TAB BAR ────────────────────────────────────────── */
+
+.tab-bar {
+  display: flex;
+  gap: var(--space-xs);
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 0;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.tab-item {
+  padding: var(--space-sm) var(--space-md);
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--muted);
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color 0.15s ease, border-color 0.15s ease;
+  margin-bottom: -1px;
+}
+
+.tab-item:hover {
+  color: var(--ink);
+}
+
+.tab-item.active {
+  color: var(--ink);
+  border-bottom-color: var(--ink);
+}
+
+/* ─── TAB PANELS ─────────────────────────────────────── */
+
+.tab-panel {
+  display: none;
+  animation: fadeIn 0.2s ease;
+}
+
+.tab-panel.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.panel-content {
+  display: grid;
+  gap: var(--space-lg);
+}
+
+.panel-content:empty {
+  display: none;
+}
+
+/* ─── AI LOADING ─────────────────────────────────────── */
+
+.ai-loading {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-lg);
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.ai-loading.hidden {
+  display: none;
+}
+
+.spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--line-strong);
+  border-top-color: var(--ink);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ─── SUMMARY PANEL ──────────────────────────────────── */
+
+.summary-section {
+  display: grid;
+  gap: var(--space-sm);
+}
+
+.summary-section h3 {
+  margin: 0;
+  font-size: 0.88rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.summary-section ul {
+  margin: 0;
+  padding-left: var(--space-lg);
+  display: grid;
+  gap: var(--space-xs);
+}
+
+.summary-section li {
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.summary-text {
+  font-size: 0.95rem;
+  line-height: 1.72;
+  color: var(--ink);
+  white-space: pre-line;
+}
+
+.topics-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+}
+
+.topic-tag {
+  display: inline-block;
+  padding: var(--space-xs) var(--space-md);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--muted);
+  font-size: 0.8rem;
+  font-weight: 500;
+  border: 1px solid var(--line);
+}
+
+/* ─── SOCIAL PANEL ───────────────────────────────────── */
+
+.social-card {
+  display: grid;
+  gap: var(--space-sm);
+  padding: var(--space-md);
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: var(--page);
+}
+
+.social-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.social-card-label {
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.social-card-copy {
+  padding: var(--space-xs) var(--space-md);
+  border-radius: 999px;
+  border: 1px solid var(--line-strong);
+  background: var(--page);
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.social-card-copy:hover {
+  color: var(--ink);
+  border-color: var(--ink);
+}
+
+.social-card-copy.copied {
+  color: #2b6b53;
+  border-color: #2b6b53;
+}
+
+.social-card-text {
+  font-size: 0.92rem;
+  line-height: 1.65;
+  white-space: pre-line;
+  color: var(--ink);
+}
+
+/* ─── IDEAS PANEL ────────────────────────────────────── */
+
+.ideas-section {
+  display: grid;
+  gap: var(--space-sm);
+}
+
+.ideas-section h3 {
+  margin: 0;
+  font-size: 0.88rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.ideas-section ol {
+  margin: 0;
+  padding-left: var(--space-lg);
+  display: grid;
+  gap: var(--space-xs);
+}
+
+.ideas-section li {
+  font-size: 0.95rem;
+  line-height: 1.6;
 }
 
 /* ─── FIELD ──────────────────────────────────────────── */
@@ -428,8 +636,12 @@ a {
     white-space: normal;
   }
 
-  .auth-card {
-    padding: var(--space-lg);
-    border-radius: 20px;
+  .tab-bar {
+    gap: 0;
+  }
+
+  .tab-item {
+    padding: var(--space-sm) var(--space-sm);
+    font-size: 0.84rem;
   }
 }
