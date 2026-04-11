@@ -112,6 +112,8 @@ Se voce tiver um arquivo de cookies exportado para uso no servidor:
 YTDLP_COOKIE_FILE=/opt/justext/youtube-cookies.txt
 ```
 
+Para `yt-dlp`, prefira `YTDLP_COOKIE_FILE` em vez de injetar um header `Cookie` cru. O fallback novo ainda consegue transformar `YOUTUBE_COOKIE` em arquivo temporario quando necessario, mas o caminho mais estavel em VPS costuma ser um cookies.txt exportado corretamente do navegador.
+
 Mesmo com `yt-dlp`, alguns videos ainda podem falhar em IP de datacenter. Se isso continuar acontecendo em escala, o proximo passo tende a ser melhorar o egress da VPS (proxy/residencial ou outra estrategia de saida), nao apenas trocar headers.
 
 ### Logs uteis na VPS
