@@ -88,6 +88,12 @@ Instale `yt-dlp` no servidor:
 python3 -m pip install -U yt-dlp
 ```
 
+Se preferir, use o script do proprio repositorio:
+
+```bash
+bash deploy/vps/install-yt-dlp.sh
+```
+
 Ou use o binario standalone e aponte com:
 
 ```text
@@ -120,6 +126,31 @@ Exemplo de acompanhamento:
 
 ```bash
 sudo journalctl -u justext -f
+```
+
+### Passo a passo rapido na Hostinger KVM
+
+```bash
+cd /opt/justext
+git pull
+bash deploy/vps/install-yt-dlp.sh
+sudo nano .env
+sudo systemctl restart justext
+sudo journalctl -u justext -f
+```
+
+Bloco sugerido para o `.env`:
+
+```env
+JUSTEXT_HOST=127.0.0.1
+JUSTEXT_PORT=3217
+ANTHROPIC_API_KEY=SEU_TOKEN
+YOUTUBE_COOKIE=
+YTDLP_ENABLED=true
+YTDLP_PATH=
+YTDLP_COOKIE_FILE=
+YTDLP_EXTRACTOR_ARGS=youtube:player_client=android,ios,tv_embedded,web
+YTDLP_TIMEOUT_MS=45000
 ```
 
 ## Gerar hash de senha
