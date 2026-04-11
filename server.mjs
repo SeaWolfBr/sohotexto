@@ -206,17 +206,21 @@ async function handleTranscribe(request, response) {
     return;
   }
 
+  let url = null;
+
   try {
     const body = await readJsonBody(request);
-    const url = body?.url?.toString().trim();
+    url = body?.url?.toString().trim() || null;
 
-    const { normalizedUrl, videoId } = validateYouTubeUrl(url);
-    const transcript = await fetchYouTubeTranscript(videoId);
+    const { normalizedUrl } = validateYouTubeUrl(url);
+    const transcript = await fetchYouTubeTranscript(normalizedUrl);
     const payload = {
       ...transcript,
       sourceUrl: normalizedUrl,
       platform: "youtube",
     };
+
+    logTranscriptSuccess("transcribe", payload);
 
     writeJson(response, 200, {
       ok: true,
@@ -232,6 +236,8 @@ async function handleTranscribe(request, response) {
         ? error.message
         : "Nao foi possivel obter a transcricao.";
 
+    logTranscriptFailure("transcribe", url, error);
+
     writeJson(response, statusCode, { ok: false, message });
   }
 }
@@ -245,13 +251,15 @@ async function handleProcess(request, response) {
     return;
   }
 
+  let url = null;
+
   try {
     const body = await readJsonBody(request);
-    const url = body?.url?.toString().trim();
+    url = body?.url?.toString().trim() || null;
     const lang = body?.lang === "pt" ? "pt" : "en";
 
-    const { normalizedUrl, videoId } = validateYouTubeUrl(url);
-    const transcript = await fetchYouTubeTranscript(videoId);
+    const { normalizedUrl } = validateYouTubeUrl(url);
+    const transcript = await fetchYouTubeTranscript(normalizedUrl);
 
     let aiResult = { summary: null, socialPosts: null, contentIdeas: null };
     try {
@@ -265,6 +273,8 @@ async function handleProcess(request, response) {
       sourceUrl: normalizedUrl,
       platform: "youtube",
     };
+
+    logTranscriptSuccess("process", payload);
 
     writeJson(response, 200, {
       ok: true,
@@ -282,6 +292,8 @@ async function handleProcess(request, response) {
       statusCode < 500 && error instanceof Error
         ? error.message
         : "Nao foi possivel processar o video.";
+
+    logTranscriptFailure("process", url, error);
 
     writeJson(response, statusCode, { ok: false, message });
   }
@@ -310,6 +322,19 @@ function buildFileStem(payload) {
 function buildExportNames(payload) {
   const fileStem = buildFileStem(payload);
   return { txtFileName: `${fileStem}.txt` };
+}
+
+function logTranscriptSuccess(kind, payload) {
+  console.info(
+    `[justext:${kind}] source=${payload?.source || "unknown"} videoId=${payload?.videoId || "unknown"} title=${JSON.stringify(payload?.title || null)}`,
+  );
+}
+
+function logTranscriptFailure(kind, inputUrl, error) {
+  const message = error instanceof Error ? error.message : String(error);
+  console.warn(
+    `[justext:${kind}:error] input=${JSON.stringify(inputUrl || null)} message=${JSON.stringify(message)}`,
+  );
 }
 
 const server = http.createServer(async (request, response) => {

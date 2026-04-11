@@ -54,12 +54,73 @@ Use isso apenas para desenvolvimento local. Em producao, troque tudo por variave
 
 - `JUSTEXT_HOST`
 - `JUSTEXT_PORT`
-- `JUSTEXT_USER`
-- `JUSTEXT_PASSWORD_HASH`
-- `JUSTEXT_SESSION_SECRET`
-- `JUSTEXT_SECURE_COOKIE`
+- `ANTHROPIC_API_KEY`
+- `YOUTUBE_COOKIE`
+- `YTDLP_ENABLED`
+- `YTDLP_PATH`
+- `YTDLP_COOKIE_FILE`
+- `YTDLP_EXTRACTOR_ARGS`
+- `YTDLP_TIMEOUT_MS`
 
 Exemplo em `.env.example`.
+
+## Extracao de transcricao em VPS/datacenter
+
+O extrator tenta, nesta ordem:
+
+1. biblioteca `youtube-transcript`
+2. leitura da pagina `watch` e parsing de `ytInitialPlayerResponse`
+3. fallback opcional via `yt-dlp`
+
+### Por que existe fallback via `yt-dlp`
+
+IPs de datacenter podem receber um `playerResponse` sem `captionTracks`, mesmo quando o video tem legenda disponivel no navegador. Nesses cenarios, `yt-dlp` costuma ser mais resiliente porque tenta clientes e fluxos do YouTube mais maduros do que um scraper caseiro.
+
+### Limite importante
+
+A YouTube Data API v3 nao resolve o caso de legendas de videos de terceiros. O endpoint oficial de captions exige OAuth e e voltado ao gerenciamento das proprias faixas do canal autenticado.
+
+### Configuracao recomendada na VPS
+
+Instale `yt-dlp` no servidor:
+
+```bash
+python3 -m pip install -U yt-dlp
+```
+
+Ou use o binario standalone e aponte com:
+
+```text
+YTDLP_PATH=/usr/local/bin/yt-dlp
+```
+
+Se quiser testar clientes alternativos do YouTube no fallback, configure por ambiente:
+
+```text
+YTDLP_EXTRACTOR_ARGS=youtube:player_client=android,ios,tv_embedded,web
+```
+
+Se voce tiver um arquivo de cookies exportado para uso no servidor:
+
+```text
+YTDLP_COOKIE_FILE=/opt/justext/youtube-cookies.txt
+```
+
+Mesmo com `yt-dlp`, alguns videos ainda podem falhar em IP de datacenter. Se isso continuar acontecendo em escala, o proximo passo tende a ser melhorar o egress da VPS (proxy/residencial ou outra estrategia de saida), nao apenas trocar headers.
+
+### Logs uteis na VPS
+
+O backend registra qual estrategia conseguiu extrair a transcricao:
+
+- `source=library`
+- `source=watch_html`
+- `source=yt_dlp`
+
+Exemplo de acompanhamento:
+
+```bash
+sudo journalctl -u justext -f
+```
 
 ## Gerar hash de senha
 
