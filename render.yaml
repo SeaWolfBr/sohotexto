@@ -1,20 +1,20 @@
 services:
   - type: web
-    name: sohotexto
+    name: justext
     runtime: docker
     plan: starter
     autoDeploy: true
     healthCheckPath: /api/health
     envVars:
-      - key: SOHOTEXTO_HOST
+      - key: JUSTEXT_HOST
         value: 0.0.0.0
-      - key: SOHOTEXTO_PORT
+      - key: JUSTEXT_PORT
         value: "3217"
-      - key: SOHOTEXTO_SECURE_COOKIE
+      - key: JUSTEXT_SECURE_COOKIE
         value: "true"
-      - key: SOHOTEXTO_USER
+      - key: JUSTEXT_USER
         sync: false
-      - key: SOHOTEXTO_PASSWORD_HASH
+      - key: JUSTEXT_PASSWORD_HASH
         sync: false
-      - key: SOHOTEXTO_SESSION_SECRET
+      - key: JUSTEXT_SESSION_SECRET
         sync: false

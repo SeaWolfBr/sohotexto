@@ -23,7 +23,7 @@ O modelo de monetização recomendado é **freemium com créditos**: transcriç�
 ### Estrutura Geral do Projeto
 
 ```
-sohotexto-repo/
+justext-repo/
 ├── server.mjs              # Servidor HTTP puro (294 linhas)
 ├── lib/
 │   └── youtube-transcript.mjs  # Extração de transcrição (389 linhas)
@@ -32,8 +32,8 @@ sohotexto-repo/
 │   ├── app.css             # Estilos (435 linhas)
 │   └── app.js              # Lógica cliente (209 linhas)
 ├── deploy/
-│   ├── nginx/sohotexto.conf
-│   └── systemd/sohotexto.service
+│   ├── nginx/justext.conf
+│   └── systemd/justext.service
 ├── docs/preview.svg
 ├── package.json            # 1 dependência: youtube-transcript
 ├── Dockerfile
@@ -769,7 +769,7 @@ creator-repurpose-v2/
 ### C. Estrutura Inicial de Diretórios da Nova Versão
 
 ```
-sohotexto-repo/
+justext-repo/
 ├── server.mjs                    # Expandido: +/api/process
 ├── lib/
 │   ├── youtube-transcript.mjs    # Inalterado

@@ -4,13 +4,13 @@ After=network.target
 
 [Service]
 Type=simple
-WorkingDirectory=/opt/sohotexto
+WorkingDirectory=/opt/justext
 ExecStart=/usr/bin/node server.mjs
 Restart=always
 RestartSec=5
 Environment=NODE_ENV=production
-Environment=SOHOTEXTO_HOST=127.0.0.1
-Environment=SOHOTEXTO_PORT=3217
+Environment=JUSTEXT_HOST=127.0.0.1
+Environment=JUSTEXT_PORT=3217
 # ANTHROPIC_API_KEY must be set here — never commit the real value
 Environment=ANTHROPIC_API_KEY=sk-ant-...
 

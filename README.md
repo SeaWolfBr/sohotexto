@@ -52,12 +52,12 @@ Use isso apenas para desenvolvimento local. Em producao, troque tudo por variave
 
 ## Variaveis de ambiente
 
-- `SOHOTEXTO_HOST`
-- `SOHOTEXTO_PORT`
-- `SOHOTEXTO_USER`
-- `SOHOTEXTO_PASSWORD_HASH`
-- `SOHOTEXTO_SESSION_SECRET`
-- `SOHOTEXTO_SECURE_COOKIE`
+- `JUSTEXT_HOST`
+- `JUSTEXT_PORT`
+- `JUSTEXT_USER`
+- `JUSTEXT_PASSWORD_HASH`
+- `JUSTEXT_SESSION_SECRET`
+- `JUSTEXT_SECURE_COOKIE`
 
 Exemplo em `.env.example`.
 
@@ -73,12 +73,12 @@ node -e "const bcrypt=require('bcryptjs'); console.log(bcrypt.hashSync('sua-senh
 
 Arquivos incluidos:
 
-- `deploy/systemd/sohotexto.service`
-- `deploy/nginx/sohotexto.conf`
+- `deploy/systemd/justext.service`
+- `deploy/nginx/justext.conf`
 
 Fluxo sugerido:
 
-1. clonar o repo em `/opt/sohotexto`
+1. clonar o repo em `/opt/justext`
 2. rodar `npm install`
 3. configurar variaveis de ambiente
 4. habilitar o service no `systemd`
@@ -93,9 +93,9 @@ Arquivo incluido:
 
 Defina no painel:
 
-- `SOHOTEXTO_USER`
-- `SOHOTEXTO_PASSWORD_HASH`
-- `SOHOTEXTO_SESSION_SECRET`
+- `JUSTEXT_USER`
+- `JUSTEXT_PASSWORD_HASH`
+- `JUSTEXT_SESSION_SECRET`
 
 ### Railway
 
@@ -107,8 +107,8 @@ Defina as mesmas variaveis de ambiente no dashboard do Railway.
 
 ## Iniciadores locais
 
-- `start-sohotexto.cmd`
-- `tools/start-sohotexto.ps1`
+- `start-justext.cmd`
+- `tools/start-justext.ps1`
 
 ## Limites conhecidos
 

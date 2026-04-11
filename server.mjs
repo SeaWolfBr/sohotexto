@@ -27,8 +27,8 @@ import { extractVideoId, fetchYouTubeTranscript } from "./lib/youtube-transcript
 import { processAll } from "./lib/ai-processor.mjs";
 const staticDir = path.join(__dirname, "static");
 
-const host = process.env.SOHOTEXTO_HOST?.trim() || "127.0.0.1";
-const port = Number(process.env.PORT || process.env.SOHOTEXTO_PORT || 3217);
+const host = process.env.JUSTEXT_HOST?.trim() || "127.0.0.1";
+const port = Number(process.env.PORT || process.env.JUSTEXT_PORT || 3217);
 const MAX_BODY_BYTES = 64 * 1024;
 
 class AppError extends Error {
