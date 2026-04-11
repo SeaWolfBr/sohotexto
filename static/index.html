@@ -22,18 +22,18 @@
             </div>
             <div>
               <p class="brand-name">justext</p>
-              <p class="brand-subtitle">youtube transcript</p>
+              <p class="brand-subtitle" id="brandSubtitle">content from youtube</p>
             </div>
           </div>
         </header>
 
         <section class="hero">
           <h1 class="hero-title" id="heroTitle">
-            Extraia transcrições limpas de vídeos do YouTube
+            Transforme vídeos do YouTube em conteúdo pronto
           </h1>
           <p class="hero-copy" id="heroCopy">
-            Transforme legendas disponíveis em texto limpo, pronto para
-            leitura, estudo e reaproveitamento.
+            Resumo, posts para redes sociais e ideias de conteúdo — tudo
+            extraído automaticamente de qualquer vídeo.
           </p>
 
           <form class="hero-form" id="transcriptForm">
@@ -48,7 +48,7 @@
             />
             <div class="hero-actions">
               <button class="primary" id="submitButton" type="submit">
-                transcrever
+                transformar
               </button>
               <button class="ghost" id="clearButton" type="button">
                 limpar
@@ -57,7 +57,7 @@
           </form>
 
           <p class="status" id="statusMessage">
-            cole a URL e clique em transcrever
+            cole a URL e clique em transformar
           </p>
         </section>
 
@@ -65,18 +65,55 @@
           <div class="result-head">
             <div class="result-title-wrap">
               <p class="eyebrow" id="resultEyebrow">Output</p>
-              <h2 class="result-title" id="resultTitle">transcrição pronta</h2>
-            </div>
-            <div class="result-actions">
-              <button class="primary" id="copyButton" type="button">copiar texto</button>
-              <button class="ghost" id="downloadTxtButton" type="button">exportar .txt</button>
+              <h2 class="result-title" id="resultTitle">conteúdo pronto</h2>
             </div>
           </div>
 
           <div class="context-preview" id="contextPreview"></div>
 
-          <div class="field">
-            <textarea id="transcriptOutput" readonly></textarea>
+          <!-- Tab bar -->
+          <nav class="tab-bar" id="tabBar">
+            <button class="tab-item active" data-tab="summary" type="button" id="tabSummary">Resumo</button>
+            <button class="tab-item" data-tab="social" type="button" id="tabSocial">Social</button>
+            <button class="tab-item" data-tab="ideas" type="button" id="tabIdeas">Ideias</button>
+            <button class="tab-item" data-tab="transcript" type="button" id="tabTranscript">Transcrição</button>
+          </nav>
+
+          <!-- Tab panels -->
+          <div class="tab-panel active" id="panelSummary">
+            <div class="ai-loading hidden" id="summaryLoading">
+              <div class="spinner"></div>
+              <span id="summaryLoadingText">gerando resumo...</span>
+            </div>
+            <div class="panel-content" id="summaryContent"></div>
+          </div>
+
+          <div class="tab-panel" id="panelSocial">
+            <div class="ai-loading hidden" id="socialLoading">
+              <div class="spinner"></div>
+              <span id="socialLoadingText">gerando posts...</span>
+            </div>
+            <div class="panel-content" id="socialContent"></div>
+          </div>
+
+          <div class="tab-panel" id="panelIdeas">
+            <div class="ai-loading hidden" id="ideasLoading">
+              <div class="spinner"></div>
+              <span id="ideasLoadingText">gerando ideias...</span>
+            </div>
+            <div class="panel-content" id="ideasContent"></div>
+          </div>
+
+          <div class="tab-panel" id="panelTranscript">
+            <div class="field">
+              <textarea id="transcriptOutput" readonly></textarea>
+            </div>
+          </div>
+
+          <!-- Actions -->
+          <div class="result-actions">
+            <button class="primary" id="copyButton" type="button">copiar</button>
+            <button class="ghost" id="downloadTxtButton" type="button">exportar .txt</button>
           </div>
         </section>
       </section>

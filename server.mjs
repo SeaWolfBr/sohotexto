@@ -1,13 +1,30 @@
 #!/usr/bin/env node
 
 import fs from "node:fs/promises";
+import { readFileSync } from "node:fs";
 import http from "node:http";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { extractVideoId, fetchYouTubeTranscript } from "./lib/youtube-transcript.mjs";
 
+// Load .env (zero dependencies)
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+try {
+  const envPath = path.join(__dirname, ".env");
+  const envContent = readFileSync(envPath, "utf8");
+  for (const line of envContent.split("\n")) {
+    const trimmed = line.trim();
+    if (!trimmed || trimmed.startsWith("#")) continue;
+    const eqIndex = trimmed.indexOf("=");
+    if (eqIndex < 0) continue;
+    const key = trimmed.slice(0, eqIndex).trim();
+    const value = trimmed.slice(eqIndex + 1).trim();
+    if (!process.env[key]) process.env[key] = value;
+  }
+} catch { /* no .env file — use environment variables directly */ }
+
+import { extractVideoId, fetchYouTubeTranscript } from "./lib/youtube-transcript.mjs";
+import { processAll } from "./lib/ai-processor.mjs";
 const staticDir = path.join(__dirname, "static");
 
 const host = process.env.SOHOTEXTO_HOST?.trim() || "127.0.0.1";
@@ -25,6 +42,12 @@ const transcribeLimiter = createRateLimiter({
   windowMs: 1000 * 60,
   maxRequests: 20,
   message: "Limite temporario de transcricoes atingido. Aguarde um minuto e tente novamente.",
+});
+
+const processLimiter = createRateLimiter({
+  windowMs: 1000 * 60,
+  maxRequests: 10,
+  message: "Limite temporario de processamentos IA atingido. Aguarde um minuto e tente novamente.",
 });
 
 const contentTypes = new Map([
@@ -213,6 +236,57 @@ async function handleTranscribe(request, response) {
   }
 }
 
+async function handleProcess(request, response) {
+  const ip = clientIp(request);
+  if (applyRateLimit(response, processLimiter.check(`process:${ip}`))) {
+    return;
+  }
+  if (applyRateLimit(response, transcribeLimiter.check(`transcribe:${ip}`))) {
+    return;
+  }
+
+  try {
+    const body = await readJsonBody(request);
+    const url = body?.url?.toString().trim();
+    const lang = body?.lang === "pt" ? "pt" : "en";
+
+    const { normalizedUrl, videoId } = validateYouTubeUrl(url);
+    const transcript = await fetchYouTubeTranscript(videoId);
+
+    let aiResult = { summary: null, socialPosts: null, contentIdeas: null };
+    try {
+      aiResult = await processAll(transcript.text, transcript.title, lang);
+    } catch (aiError) {
+      console.error("AI processing failed (returning transcript only):", aiError.message);
+    }
+
+    const payload = {
+      ...transcript,
+      sourceUrl: normalizedUrl,
+      platform: "youtube",
+    };
+
+    writeJson(response, 200, {
+      ok: true,
+      result: {
+        ...payload,
+        exports: buildExportNames(payload),
+        summary: aiResult.summary,
+        socialPosts: aiResult.socialPosts,
+        contentIdeas: aiResult.contentIdeas,
+      },
+    });
+  } catch (error) {
+    const statusCode = error instanceof AppError ? error.statusCode : 500;
+    const message =
+      statusCode < 500 && error instanceof Error
+        ? error.message
+        : "Nao foi possivel processar o video.";
+
+    writeJson(response, statusCode, { ok: false, message });
+  }
+}
+
 function formatDateStamp(date = new Date()) {
   return date.toISOString().slice(0, 10);
 }
@@ -249,6 +323,11 @@ const server = http.createServer(async (request, response) => {
 
     if (request.method === "POST" && requestUrl.pathname === "/api/transcribe") {
       await handleTranscribe(request, response);
+      return;
+    }
+
+    if (request.method === "POST" && requestUrl.pathname === "/api/process") {
+      await handleProcess(request, response);
       return;
     }
 
