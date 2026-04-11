@@ -325,11 +325,17 @@ function renderContentIdeas(ideas) {
     html += "</ol></div>";
   }
 
-  // Angles
+  // Angles — schema: { format, theme, idea } or plain string (fallback)
   if (ideas.angles?.length) {
     html += `<div class="ideas-section"><h3>${s.ideasAngles}</h3><ol>`;
     for (const a of ideas.angles) {
-      html += `<li>${escapeHtml(a)}</li>`;
+      if (typeof a === "object" && a !== null) {
+        const label = [a.format, a.theme].filter(Boolean).map(escapeHtml).join(" · ");
+        const idea = escapeHtml(a.idea || "");
+        html += `<li>${label ? `<strong>${label}</strong> — ` : ""}${idea}</li>`;
+      } else {
+        html += `<li>${escapeHtml(String(a))}</li>`;
+      }
     }
     html += "</ol></div>";
   }
@@ -424,7 +430,13 @@ function buildFullExport(result) {
       ideasText += s.ideasHooks + "\n" + result.contentIdeas.hooks.map((h, i) => `${i + 1}. ${h}`).join("\n") + "\n\n";
     }
     if (result.contentIdeas.angles?.length) {
-      ideasText += s.ideasAngles + "\n" + result.contentIdeas.angles.map((a, i) => `${i + 1}. ${a}`).join("\n");
+      ideasText += s.ideasAngles + "\n" + result.contentIdeas.angles.map((a, i) => {
+        if (typeof a === "object" && a !== null) {
+          const label = [a.format, a.theme].filter(Boolean).join(" · ");
+          return `${i + 1}. ${label ? label + " — " : ""}${a.idea || ""}`;
+        }
+        return `${i + 1}. ${a}`;
+      }).join("\n");
     }
     sections.push(ideasText.trim());
   }
@@ -460,7 +472,13 @@ function getActiveTabText() {
       const parts = [];
       if (r.contentIdeas?.titles?.length) parts.push(s.ideasTitles + "\n" + r.contentIdeas.titles.map((t, i) => `${i + 1}. ${t}`).join("\n"));
       if (r.contentIdeas?.hooks?.length) parts.push(s.ideasHooks + "\n" + r.contentIdeas.hooks.map((h, i) => `${i + 1}. ${h}`).join("\n"));
-      if (r.contentIdeas?.angles?.length) parts.push(s.ideasAngles + "\n" + r.contentIdeas.angles.map((a, i) => `${i + 1}. ${a}`).join("\n"));
+      if (r.contentIdeas?.angles?.length) parts.push(s.ideasAngles + "\n" + r.contentIdeas.angles.map((a, i) => {
+        if (typeof a === "object" && a !== null) {
+          const label = [a.format, a.theme].filter(Boolean).join(" · ");
+          return `${i + 1}. ${label ? label + " — " : ""}${a.idea || ""}`;
+        }
+        return `${i + 1}. ${a}`;
+      }).join("\n"));
       return parts.join("\n\n");
     }
     case "transcript":
