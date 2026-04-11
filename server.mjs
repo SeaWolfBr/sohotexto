@@ -147,6 +147,97 @@ function writeJson(response, statusCode, payload, headers = {}) {
   response.end(JSON.stringify(payload));
 }
 
+function writeHtml(response, statusCode, html, headers = {}) {
+  response.writeHead(statusCode, {
+    "Content-Type": "text/html; charset=utf-8",
+    "Cache-Control": "no-store",
+    ...headers,
+  });
+  response.end(html);
+}
+
+function wantsHtml(request) {
+  const accept = request.headers.accept || "";
+  return accept.includes("text/html");
+}
+
+function hasFileExtension(pathname) {
+  return path.extname(pathname || "").length > 0;
+}
+
+function writeBrowserNotFound(response) {
+  writeHtml(
+    response,
+    404,
+    `<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Justext</title>
+    <style>
+      :root {
+        color-scheme: light;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        padding: 24px;
+        background: #ffffff;
+        color: #111827;
+        font-family: Manrope, "Segoe UI", sans-serif;
+      }
+      main {
+        width: min(560px, 100%);
+        padding: 32px;
+        border: 1px solid rgba(17, 24, 39, 0.08);
+        border-radius: 24px;
+        background: #ffffff;
+        box-shadow: 0 24px 60px rgba(17, 24, 39, 0.08);
+      }
+      h1 {
+        margin: 0 0 12px;
+        font-size: clamp(2rem, 4vw, 2.8rem);
+        line-height: 1;
+        letter-spacing: -0.04em;
+        font-weight: 600;
+      }
+      p {
+        margin: 0;
+        color: #5f6675;
+        line-height: 1.7;
+      }
+      a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 48px;
+        margin-top: 24px;
+        padding: 0 18px;
+        border-radius: 999px;
+        background: #16181f;
+        color: #ffffff;
+        text-decoration: none;
+        font-weight: 600;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Justext</h1>
+      <p>Essa rota nao foi encontrada. Volte para a pagina inicial para continuar usando a aplicacao.</p>
+      <a href="/">Ir para a pagina inicial</a>
+    </main>
+  </body>
+</html>`,
+  );
+}
+
 async function serveStaticFile(response, filePath) {
   const extension = path.extname(filePath).toLowerCase();
   const contentType = contentTypes.get(extension) || "application/octet-stream";
@@ -339,34 +430,56 @@ function logTranscriptFailure(kind, inputUrl, error) {
 
 const server = http.createServer(async (request, response) => {
   const requestUrl = new URL(request.url || "/", `http://${host}:${port}`);
+  const pathname = requestUrl.pathname || "/";
 
   try {
-    if (request.method === "GET" && requestUrl.pathname === "/api/health") {
+    if (request.method === "GET" && pathname === "/api/health") {
       writeJson(response, 200, { ok: true });
       return;
     }
 
-    if (request.method === "POST" && requestUrl.pathname === "/api/transcribe") {
+    if (request.method === "POST" && pathname === "/api/transcribe") {
       await handleTranscribe(request, response);
       return;
     }
 
-    if (request.method === "POST" && requestUrl.pathname === "/api/process") {
+    if (request.method === "POST" && pathname === "/api/process") {
       await handleProcess(request, response);
       return;
     }
 
+    if (request.method === "GET" && pathname === "/favicon.ico") {
+      response.writeHead(204);
+      response.end();
+      return;
+    }
+
     const requestedPath =
-      requestUrl.pathname === "/"
+      pathname === "/"
         ? path.join(staticDir, "index.html")
-        : path.join(staticDir, requestUrl.pathname.replace(/^\/+/, ""));
+        : path.join(staticDir, pathname.replace(/^\/+/, ""));
 
     if (!requestedPath.startsWith(staticDir)) {
       writeJson(response, 403, { ok: false, message: "Acesso negado." });
       return;
     }
 
-    await serveStaticFile(response, requestedPath);
+    try {
+      await serveStaticFile(response, requestedPath);
+      return;
+    } catch (error) {
+      if (
+        error?.code === "ENOENT" &&
+        request.method === "GET" &&
+        wantsHtml(request) &&
+        !hasFileExtension(pathname)
+      ) {
+        await serveStaticFile(response, path.join(staticDir, "index.html"));
+        return;
+      }
+
+      throw error;
+    }
   } catch (error) {
     const statusCode =
       error?.code === "ENOENT"
@@ -376,6 +489,11 @@ const server = http.createServer(async (request, response) => {
           : 500;
 
     if (!response.headersSent) {
+      if (statusCode === 404 && request.method === "GET" && wantsHtml(request)) {
+        writeBrowserNotFound(response);
+        return;
+      }
+
       writeJson(response, statusCode, {
         ok: false,
         message:
