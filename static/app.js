@@ -3,8 +3,8 @@
 const strings = {
   pt: {
     brandSubtitle: "conteúdo a partir do youtube",
-    heroTitle: "Transforme vídeos do YouTube em conteúdo pronto",
-    heroCopy: "Resumo, posts para redes sociais e ideias de conteúdo — tudo extraído automaticamente de qualquer vídeo.",
+    heroTitle: "Extraia o melhor de cada vídeo do YouTube",
+    heroCopy: "Resumo, posts para redes sociais e ideias de conteúdo — tudo extraído automaticamente de cada vídeo.",
     submitBtn: "transformar",
     clearBtn: "limpar",
     copyBtn: "copiar",
@@ -44,8 +44,8 @@ const strings = {
   },
   en: {
     brandSubtitle: "content from youtube",
-    heroTitle: "Turn YouTube videos into ready-to-use content",
-    heroCopy: "Summary, social media posts and content ideas — all extracted automatically from any video.",
+    heroTitle: "Extract the best from every YouTube video",
+    heroCopy: "Summary, social media posts and content ideas — all extracted automatically from every video.",
     submitBtn: "transform",
     clearBtn: "clear",
     copyBtn: "copy",
