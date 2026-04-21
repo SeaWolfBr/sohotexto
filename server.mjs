@@ -23,8 +23,8 @@ try {
   }
 } catch { /* no .env file — use environment variables directly */ }
 
-import { extractVideoId, fetchYouTubeTranscript } from "./lib/youtube-transcript.mjs";
-import { processAll } from "./lib/ai-processor.mjs";
+const { extractVideoId, fetchYouTubeTranscript } = await import("./lib/youtube-transcript.mjs");
+const { processAll } = await import("./lib/ai-processor.mjs");
 const staticDir = path.join(__dirname, "static");
 
 const host = process.env.JUSTEXT_HOST?.trim() || "127.0.0.1";
